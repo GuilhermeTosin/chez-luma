@@ -221,7 +221,7 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
           </form>
         )}
 
-        <div style={{ marginTop: '3rem', display: 'flex', gap: '2rem', justifyContent: 'center', borderTop: '1px solid #eee', paddingTop: '2rem' }}>
+        <div className="calendar-legend" style={{ marginTop: '3rem', display: 'flex', gap: '2rem', justifyContent: 'center', borderTop: '1px solid #eee', paddingTop: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div style={{ width: '24px', height: '24px', backgroundColor: '#fff', borderRadius: '6px', border: '1px solid #eee' }}></div>
             <span style={{ fontSize: '0.9rem' }}>{t('calendar_label_available')}</span>
