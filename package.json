@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://GuilhermeTosin.github.io/chez-luma/",
+  "homepage": "https://chezluma.com/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
