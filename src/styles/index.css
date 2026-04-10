@@ -488,7 +488,8 @@ header {
 
 /* Calendar States & Interaction */
 .day-cell {
-  height: 80px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -587,6 +588,18 @@ header {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   opacity: 0.8;
+  line-height: 1;
+}
+
+@media (max-width: 600px) {
+  .status-label {
+    font-size: 0.5rem;
+  }
+  
+  .day-cell {
+    border-radius: 10px;
+    font-size: 0.9rem;
+  }
 }
 
 .admin-mode-indicator {
