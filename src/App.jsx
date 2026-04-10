@@ -31,7 +31,7 @@ const FAQItem = ({ question, answer }) => {
 const FAQ = ({ t }) => (
   <section className="section-padding bg-light">
     <div className="container">
-      <h2 className="text-primary" style={{fontSize: '3rem', textAlign: 'center'}}>{t('faq_title')}</h2>
+      <h2 className="text-primary" style={{textAlign: 'center'}}>{t('faq_title')}</h2>
       <div className="faq-container">
         <FAQItem question={t('faq_q1')} answer={t('faq_a1')} />
         <FAQItem question={t('faq_q2')} answer={t('faq_a2')} />
@@ -42,9 +42,8 @@ const FAQ = ({ t }) => (
   </section>
 );
 
-const Calendar = ({ t }) => {
+const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword, handleAdminLogin }) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
-  const [isAdmin, setIsAdmin] = useState(false);
   const [selection, setSelection] = useState({ start: null, end: null });
   
   // Persistent Availability State
@@ -101,14 +100,7 @@ const Calendar = ({ t }) => {
     }
   };
 
-  const toggleAdmin = () => {
-    if (!isAdmin) {
-      const pass = prompt("Saisissez le mot de passe admin :");
-      if (pass === 'luma123') setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
-    }
-  };
+
 
   const getDayClass = (day) => {
     if (!day) return 'day-cell day-empty';
@@ -138,8 +130,7 @@ const Calendar = ({ t }) => {
   return (
     <div className="container section-padding fade-in" id="booking">
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginBottom: '2rem'}}>
-        <h2 className="text-primary" style={{fontSize: '3rem', margin: 0}}>{t('calendar_title')}</h2>
-        <button className="admin-toggle" onClick={toggleAdmin} title="Admin Mode">🔒</button>
+        <h2 className="text-primary" style={{margin: 0}}>{t('calendar_title')}</h2>
       </div>
 
       {isAdmin && (
@@ -151,7 +142,7 @@ const Calendar = ({ t }) => {
 
       <div style={{maxWidth: '850px', margin: '0 auto', backgroundColor: 'white', padding: '2rem', borderRadius: '30px', boxShadow: 'var(--shadow-lg)'}}>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem'}}>
-          <h3 style={{fontSize: '1.8rem', textTransform: 'capitalize'}}>{selectedMonth.toLocaleString('default', { month: 'long' })} {year}</h3>
+          <h3 style={{textTransform: 'capitalize'}}>{selectedMonth.toLocaleString('default', { month: 'long' })} {year}</h3>
           <div style={{display: 'flex', gap: '1rem'}}>
             <button className="lang-switch" onClick={() => setSelectedMonth(new Date(year, month - 1, 1))}>&lt;</button>
             <button className="lang-switch" onClick={() => setSelectedMonth(new Date(year, month + 1, 1))}>&gt;</button>
@@ -178,7 +169,7 @@ const Calendar = ({ t }) => {
             method="POST"
             className="booking-form"
           >
-            <h3 style={{fontSize: '1.5rem', marginBottom: '2rem', color: 'var(--color-primary)'}}>{t('form_title')}</h3>
+            <h3 style={{marginBottom: '2rem', color: 'var(--color-primary)'}}>{t('form_title')}</h3>
             
             <div className="form-grid">
               <div className="input-group">
@@ -233,7 +224,7 @@ const Calendar = ({ t }) => {
   );
 };
 
-const Home = ({ t }) => {
+const Home = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword, handleAdminLogin }) => {
   const desktopHero = i18n.language === 'fr' ? '/images/hero-desktop-fr.jpg' : '/images/hero-desktop-en.jpg';
   const mobileHero = i18n.language === 'fr' ? '/images/hero-mobile-fr.jpg' : '/images/hero-mobile-en.jpg';
 
@@ -254,7 +245,7 @@ const Home = ({ t }) => {
 
     <section className="section-padding">
       <div className="container">
-        <h2 className="text-primary" style={{fontSize: '3rem', textAlign: 'center'}}>{t('why_title')}</h2>
+        <h2 className="text-primary" style={{textAlign: 'center'}}>{t('why_title')}</h2>
         <div className="info-grid">
           <div className="info-card">
             <span className="info-icon">✨</span>
@@ -278,7 +269,7 @@ const Home = ({ t }) => {
     <section className="section-padding" style={{backgroundColor: '#f9f7f0'}}>
       <div className="container" style={{display: 'flex', alignItems: 'center', gap: '4rem', flexWrap: 'wrap'}}>
          <div style={{flex: '1', minWidth: '300px'}}>
-            <h2 className="text-primary" style={{fontSize: '3rem', marginBottom: '2rem'}}>{t('service_title')}</h2>
+            <h2 className="text-primary" style={{marginBottom: '2rem'}}>{t('service_title')}</h2>
             <p style={{fontSize: '1.2rem', marginBottom: '1rem'}}>{t('service_desc1')}</p>
             <p style={{fontSize: '1.2rem', marginBottom: '2rem'}}>{t('service_desc2')}</p>
             <ul style={{listStyle: 'none', lineHeight: '2.5', fontSize: '1.1rem', marginBottom: '2rem'}}>
@@ -290,29 +281,36 @@ const Home = ({ t }) => {
             <a href="#booking" className="btn-primary" onClick={(e) => { e.preventDefault(); document.getElementById('booking')?.scrollIntoView({behavior: 'smooth'}) }}>{t('hero_cta')}</a>
          </div>
          <div style={{flex: '1', minWidth: '300px'}}>
-            <img src="https://images.unsplash.com/photo-1541599540903-21b1576ba1cd?auto=format&fit=crop&w=800&q=80" alt="Garde canine VIP" style={{width: '100%', borderRadius: '40px', boxShadow: 'var(--shadow-lg)'}} />
+            <img 
+              src="https://images.unsplash.com/photo-1541599540903-21b1576ba1cd?auto=format&fit=crop&w=800&q=80" 
+              alt={t('alt_service_home')} 
+              title={t('alt_service_home')}
+              style={{width: '100%', borderRadius: '40px', boxShadow: 'var(--shadow-lg)'}} 
+            />
          </div>
       </div>
     </section>
 
+
     <Testimonials t={t} />
-    <Calendar t={t} />
+    <Calendar t={t} isAdmin={isAdmin} showAdminLogin={showAdminLogin} adminPassword={adminPassword} setAdminPassword={setAdminPassword} handleAdminLogin={handleAdminLogin} />
     <FAQ t={t} />
     </>
   );
 };
 
 const Gallery = ({ t, onImageClick }) => (
-  <div className="container section-padding fade-in">
-    <h2 className="text-primary" style={{fontSize: '3rem', textAlign: 'center', marginBottom: '3rem'}}>{t('gallery_title')}</h2>
+  <div className="container section-padding fade-in" id="gallery">
+    <h1 className="text-primary" style={{textAlign: 'center', marginBottom: '3rem'}}>{t('gallery_title')}</h1>
     <div className="gallery-grid">
       {[1,2,3,4,5,6].map(i => {
         const url = `https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80&sig=${i}`;
+        const altKey = `alt_gallery_${i}`;
         return (
           <div key={i} 
                onClick={() => onImageClick(url)}
                className="gallery-item">
-            <img src={url} alt="Dog" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+            <img src={url} alt={t(altKey)} title={t(altKey)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
           </div>
         );
       })}
@@ -322,16 +320,49 @@ const Gallery = ({ t, onImageClick }) => (
 
 const About = ({ t }) => (
   <div className="container section-padding fade-in" id="contact">
-    <div style={{display: 'flex', gap: '4rem', alignItems: 'center', flexWrap: 'wrap'}}>
+    <div style={{display: 'flex', gap: '4rem', alignItems: 'flex-start', flexWrap: 'wrap'}}>
       <div style={{flex: '1', minWidth: '300px'}}>
-         <img src="https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="About us Luma" style={{width: '100%', borderRadius: '30px', boxShadow: 'var(--shadow-lg)'}} />
+         <img 
+           src="https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+           alt={t('alt_about')} 
+           title={t('alt_about')}
+           style={{width: '100%', borderRadius: '30px', boxShadow: 'var(--shadow-lg)', marginBottom: '2rem'}} 
+         />
+         <div className="contact-info-card">
+            <h3 style={{marginBottom: '1rem', color: 'var(--color-primary)'}}>{t('nav_about')}</h3>
+            <p style={{marginBottom: '0.5rem'}}>📍 Mirabel, QC</p>
+            <p style={{marginBottom: '0.5rem'}}>📞 514 652-2659</p>
+            <p style={{marginBottom: '0.5rem'}}>✉️ contact@chezluma.ca</p>
+         </div>
       </div>
-      <div style={{flex: '1', minWidth: '300px'}}>
-        <h2 className="text-primary" style={{fontSize: '3rem', marginBottom: '1.5rem'}}>{t('about_title')}</h2>
-        <p style={{fontSize: '1.25rem', marginBottom: '1.5rem', lineHeight: '1.8'}}>{t('about_desc1')}</p>
-        <p style={{fontSize: '1.25rem', marginBottom: '1.5rem', lineHeight: '1.8'}}>{t('about_desc2')}</p>
-        <div style={{marginTop: '2rem'}}>
-             <a href="mailto:contact@letoutouchic.ca" className="btn-primary">{t('contact_title')}</a>
+      <div style={{flex: '1.2', minWidth: '300px'}}>
+        <h1 className="text-primary" style={{marginBottom: '1.5rem'}}>{t('about_title')}</h1>
+        <p style={{fontSize: '1.2rem', marginBottom: '1.5rem', lineHeight: '1.8'}}>{t('about_desc1')}</p>
+        <p style={{fontSize: '1.2rem', marginBottom: '2rem', lineHeight: '1.8'}}>{t('about_desc2')}</p>
+        
+        <div className="contact-form-container">
+          <h3 style={{marginBottom: '2rem', color: 'var(--color-text)'}}>{t('contact_title')}</h3>
+          <form action="https://formspree.io/f/xoqgeqzb" method="POST" className="contact-page-form">
+            <div className="form-group-row">
+              <div className="input-group">
+                <label>{t('form_name')} *</label>
+                <input type="text" name="name" required placeholder="Ex: Jean Dupont" />
+              </div>
+              <div className="input-group">
+                <label>{t('form_email')} *</label>
+                <input type="email" name="email" required placeholder="email@exemple.com" />
+              </div>
+            </div>
+            <div className="input-group">
+              <label>{t('form_phone')}</label>
+              <input type="tel" name="phone" placeholder="514-000-0000" />
+            </div>
+            <div className="input-group">
+              <label>{t('form_message')} *</label>
+              <textarea name="message" rows="5" required placeholder="..."></textarea>
+            </div>
+            <button type="submit" className="btn-primary" style={{width: '100%', marginTop: '1rem'}}>{t('form_submit')}</button>
+          </form>
         </div>
       </div>
     </div>
@@ -340,12 +371,12 @@ const About = ({ t }) => (
 
 const Terms = ({ t }) => (
   <div className="container section-padding fade-in">
-    <h2 className="text-primary" style={{fontSize: '3rem', textAlign: 'center', marginBottom: '1rem'}}>{t('terms_title')}</h2>
+    <h1 className="text-primary" style={{textAlign: 'center', marginBottom: '1rem'}}>{t('terms_title')}</h1>
     <p style={{textAlign: 'center', maxWidth: '600px', margin: '0 auto 4rem', fontSize: '1.1rem'}}>{t('terms_desc')}</p>
     
     <div style={{maxWidth: '800px', margin: '0 auto', backgroundColor: 'white', padding: '3rem', borderRadius: '20px', boxShadow: 'var(--shadow-md)'}}>
       <div style={{marginBottom: '2rem'}}>
-        <h3 style={{fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--color-primary)'}}>{t('terms_1_title')}</h3>
+        <h3 style={{marginBottom: '1rem', color: 'var(--color-primary)'}}>{t('terms_1_title')}</h3>
         <p style={{lineHeight: '1.8'}}>{t('terms_1_desc')}</p>
       </div>
       <div style={{marginBottom: '2rem'}}>
@@ -368,7 +399,7 @@ const Testimonials = ({ t }) => (
   <section className="testimonials-section section-padding">
     <div className="container">
       <div style={{textAlign: 'center', marginBottom: '4rem'}}>
-        <h2 className="text-primary" style={{fontSize: '3rem', marginBottom: '1rem'}}>{t('testimonials_title')}</h2>
+        <h2 className="text-primary" style={{marginBottom: '1rem'}}>{t('testimonials_title')}</h2>
         <p style={{fontSize: '1.2rem', opacity: '0.8'}}>{t('testimonials_subtitle')}</p>
       </div>
       
@@ -378,7 +409,8 @@ const Testimonials = ({ t }) => (
             <div className="testimonial-stars">★★★★★</div>
             <img 
               src={`https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=150&q=80&sig=${i}`} 
-              alt={t(`test_${i}_name`)} 
+              alt={t('alt_testimonial')} 
+              title={t('test_1_name')} 
               className="testimonial-photo" 
             />
             <p className="testimonial-quote">"{t(`test_${i}_text`)}"</p>
@@ -393,14 +425,15 @@ const Testimonials = ({ t }) => (
 const Reiki = ({ t }) => (
   <div className="container section-padding fade-in">
     <div style={{maxWidth: '1000px', margin: '0 auto'}}>
-      <h1 className="text-primary" style={{fontSize: '3.5rem', textAlign: 'center', marginBottom: '1rem'}}>{t('reiki_title')}</h1>
+      <h1 className="text-primary" style={{textAlign: 'center', marginBottom: '1rem'}}>{t('reiki_title')}</h1>
       <p style={{fontSize: '1.4rem', textAlign: 'center', marginBottom: '3rem', opacity: '0.8'}}>{t('reiki_subtitle')}</p>
       
       {/* Imagem Panorâmica no Topo */}
       <div style={{width: '100%', marginBottom: '4rem'}}>
         <img 
-          src="https://images.unsplash.com/photo-1544175032-4abda297fa28?auto=format&fit=crop&w=1200&h=500&q=80" 
-          alt="Reiki Canin Panorama" 
+          src="/images/reiki-hero.jpg" 
+          alt={t('alt_reiki_hero')} 
+          title={t('alt_reiki_hero')}
           style={{width: '100%', height: 'auto', maxHeight: '500px', objectFit: 'cover', borderRadius: '40px', boxShadow: 'var(--shadow-lg)'}} 
         />
       </div>
@@ -414,7 +447,7 @@ const Reiki = ({ t }) => (
         
         <div style={{flex: '1', minWidth: '300px'}}>
           <div style={{backgroundColor: '#f9f7f0', padding: '2.5rem', borderRadius: '30px', border: '1px solid rgba(224, 122, 95, 0.1)'}}>
-            <h3 style={{fontSize: '1.5rem', marginBottom: '1.5rem', color: 'var(--color-primary)'}}>{t('reiki_benefits_title')}</h3>
+            <h3 style={{marginBottom: '1.5rem', color: 'var(--color-primary)'}}>{t('reiki_benefits_title')}</h3>
             <ul style={{listStyle: 'none', lineHeight: '2.2', fontSize: '1.1rem'}}>
               <li>{t('reiki_b1')}</li>
               <li>{t('reiki_b2')}</li>
@@ -429,7 +462,7 @@ const Reiki = ({ t }) => (
 
       {/* Formulaire Reiki */}
       <section id="reiki-form" style={{backgroundColor: '#ffffff', padding: '4rem 2rem', borderRadius: '40px', boxShadow: 'var(--shadow-lg)', marginBottom: '4rem'}}>
-        <h2 className="text-primary" style={{textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem'}}>{t('reiki_form_title')}</h2>
+        <h2 className="text-primary" style={{textAlign: 'center', marginBottom: '3rem'}}>{t('reiki_form_title')}</h2>
         <form action="https://formspree.io/f/xoqgeqzb" method="POST" style={{maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
           <input type="hidden" name="_subject" value="Nouvelle demande de Reiki Canin" />
           
@@ -466,6 +499,33 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Admin State (lifted for footer access)
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+
+  const toggleAdmin = () => {
+    if (isAdmin) {
+      setIsAdmin(false);
+      setShowAdminLogin(false);
+    } else {
+      setShowAdminLogin(!showAdminLogin);
+      // If we are not on home/calendar, maybe switch? 
+      // For now just show the login if they click it.
+    }
+  };
+
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    if (adminPassword === 'luma123') {
+      setIsAdmin(true);
+      setShowAdminLogin(false);
+      setAdminPassword('');
+    } else {
+      alert("Mot de passe incorrect");
+    }
+  };
 
   useEffect(() => {
     // Update Title
@@ -486,11 +546,11 @@ const App = () => {
   const renderPage = () => {
     switch(currentPage) {
         case 'gallery': return <Gallery t={t} onImageClick={setSelectedImage} />;
-        case 'calendar': return <Calendar t={t} />;
+        case 'calendar': return <Calendar t={t} isAdmin={isAdmin} showAdminLogin={showAdminLogin} adminPassword={adminPassword} setAdminPassword={setAdminPassword} handleAdminLogin={handleAdminLogin} />;
         case 'reiki': return <Reiki t={t} />;
         case 'about': return <About t={t} />;
         case 'terms': return <Terms t={t} />;
-        default: return <Home t={t} />;
+        default: return <Home t={t} isAdmin={isAdmin} showAdminLogin={showAdminLogin} adminPassword={adminPassword} setAdminPassword={setAdminPassword} handleAdminLogin={handleAdminLogin} />;
     }
   };
 
@@ -500,7 +560,7 @@ const App = () => {
       <header>
         <div className="container" style={{display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
            <a href="#" className="logo" onClick={() => { setCurrentPage('home'); setIsMenuOpen(false); }}>
-             <img src="/images/logo.png" alt="Chez Luma" style={{height: '50px', width: 'auto', display: 'block'}} />
+             <img src="/images/logo.png" alt={t('alt_logo')} title={t('alt_logo')} style={{height: '50px', width: 'auto', display: 'block'}} />
            </a>
            
            <div className="nav-links">
@@ -533,30 +593,79 @@ const App = () => {
         {renderPage()}
       </main>
 
-      <footer style={{padding: '5rem 2rem', backgroundColor: 'var(--color-text)', color: 'white'}}>
-        <div className="container" style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem'}}>
-           <div style={{maxWidth: '300px', textAlign: 'left'}}>
-              <h3 style={{fontFamily: 'var(--font-heading)', fontSize: '2rem', marginBottom: '1rem'}}>Chez Luma</h3>
-              <p style={{opacity: '0.8'}}>Garde canine de luxe à Montréal. Le confort de la maison, l'expertise en plus.</p>
+      {showAdminLogin && !isAdmin && (
+        <div className="admin-modal-overlay" onClick={() => setShowAdminLogin(false)}>
+          <div className="admin-modal-content" onClick={e => e.stopPropagation()}>
+            <h3 style={{marginBottom: '1.5rem', color: 'var(--color-primary)'}}>{t('nav_home') === 'Home' ? 'Admin Login' : 'Connexion Admin'}</h3>
+            <form onSubmit={handleAdminLogin} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+              <input 
+                type="password" 
+                placeholder="Mot de passe..." 
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                autoFocus
+                style={{padding: '1rem', borderRadius: '15px', border: '1px solid #ddd', fontSize: '1.1rem'}}
+              />
+              <button type="submit" className="btn-primary" style={{padding: '1rem'}}>{t('nav_home') === 'Home' ? 'Access Dashboard' : 'Accéder au mode édition'}</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <footer className="footer">
+        <div className="container footer-grid">
+           <div className="footer-brand">
+              <img src="/images/logo.png" alt={t('alt_logo')} title={t('alt_logo')} className="footer-logo" onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }} />
+              <p className="footer-tagline">{t('footer_tagline')}</p>
            </div>
-           <div style={{textAlign: 'left'}}>
-              <h4 style={{marginBottom: '1rem'}}>Contact</h4>
-              <p style={{opacity: '0.8'}}>Montréal, QC</p>
-              <p style={{opacity: '0.8'}}>contact@chezluma.ca</p>
+           
+           <div className="footer-column">
+              <h4>{t('footer_links')}</h4>
+              <nav className="footer-nav">
+                <a href="#" onClick={() => { setCurrentPage('home'); window.scrollTo(0, 0); }}>{t('nav_home')}</a>
+                <a href="#" onClick={() => { setCurrentPage('reiki'); window.scrollTo(0, 0); }}>{t('nav_reiki')}</a>
+                <a href="#" onClick={() => { setCurrentPage('gallery'); window.scrollTo(0, 0); }}>{t('nav_gallery')}</a>
+                <a href="#" onClick={() => { setCurrentPage('home'); setTimeout(() => document.getElementById('booking')?.scrollIntoView({behavior: 'smooth'}), 100); }}>{t('nav_calendar')}</a>
+              </nav>
            </div>
-           <div style={{textAlign: 'left'}}>
-              <h4 style={{marginBottom: '1rem'}}>Légal</h4>
-              <p style={{opacity: '0.8', cursor: 'pointer', textDecoration: 'underline'}} onClick={() => { setCurrentPage('terms'); window.scrollTo(0,0); }}>{t('nav_terms')}</p>
+
+           <div className="footer-column">
+              <h4>{t('footer_legal')}</h4>
+              <nav className="footer-nav">
+                <a href="#" onClick={() => { setCurrentPage('terms'); window.scrollTo(0,0); }}>{t('nav_terms')}</a>
+                <a href="#" onClick={() => { setCurrentPage('about'); window.scrollTo(0,0); }}>{t('nav_about')}</a>
+              </nav>
            </div>
-           <div style={{textAlign: 'left'}}>
-              <h4 style={{marginBottom: '1rem'}}>Suivez-nous</h4>
-              <div style={{display: 'flex', gap: '1rem', marginTop: '0.5rem'}}>
-                  {['IG', 'FB', 'TW'].map(s => <div key={s} style={{width: '40px', height: '40px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: '0.3s'}}>{s}</div>)}
+
+           <div className="footer-column">
+              <h4>{t('footer_social')}</h4>
+              <div className="social-links">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon" title="Instagram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon" title="Facebook">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+              </div>
+              <div className="footer-contact-info">
+                <p>Mirabel, QC</p>
+                <p>514 652-2659</p>
+                <p>contact@chezluma.ca</p>
               </div>
            </div>
         </div>
-        <div style={{marginTop: '4rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '2rem', opacity: '0.6', fontSize: '0.9rem'}}>
-           &copy; {new Date().getFullYear()} Chez Luma Montréal. Tous droits réservés.
+
+        <div className="container footer-bottom">
+           <div className="footer-copyright">
+              &copy; {new Date().getFullYear()} <span 
+                onClick={toggleAdmin} 
+                style={{ cursor: 'pointer', userSelect: 'none' }}
+                title="Admin"
+              >Chez Luma Mirabel</span>. {t('footer_rights')}
+           </div>
+           <div className="footer-made-by">
+              {t('footer_made_in')}
+           </div>
         </div>
       </footer>
     </div>
