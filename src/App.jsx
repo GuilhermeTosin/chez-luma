@@ -68,11 +68,11 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
   const saveAvailability = async (key, status) => {
     // Optimistic update
     setAvailability(prev => ({ ...prev, [key]: status }));
-    
+
     const { error } = await supabase
       .from('availability')
       .upsert({ date_key: key, status: status });
-      
+
     if (error) {
       console.error('Error updating availability:', error);
       fetchAvailability(); // Revert to server state on error
@@ -139,21 +139,21 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
       for (let d = selection.start; d <= selection.end; d++) {
         const dKey = `${year}-${month}-${d}`;
         if ((availability[dKey] || 'available') === 'available') {
-           updates.push({ date_key: dKey, status: 'pending' });
+          updates.push({ date_key: dKey, status: 'pending' });
         }
       }
       if (updates.length > 0) {
         // Optimistic update
         setAvailability(prev => {
-          const next = {...prev};
+          const next = { ...prev };
           updates.forEach(u => next[u.date_key] = u.status);
           return next;
         });
-        
+
         try {
           const { error } = await supabase.from('availability').upsert(updates);
           if (error) throw error;
-          
+
           // After saving to Supabase, submit the form to Formspree
           form.submit();
         } catch (err) {
@@ -594,7 +594,7 @@ const App = () => {
 
   const handleAdminLogin = (e) => {
     e.preventDefault();
-    if (adminPassword === 'luma123') {
+    if (adminPassword === 'Periquita2020!') {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setAdminPassword('');
