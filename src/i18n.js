@@ -21,11 +21,11 @@ const resources = {
       "seo_about_desc": "Rencontrez l'équipe de Chez Luma à Mirabel. Notre passion : offrir à votre chien un second foyer chaleureux.",
       "seo_terms_title": "Conditions de Pension | Chez Luma Mirabel",
       "seo_terms_desc": "Consultez nos termes et conditions pour une garde canine en toute sécurité à Mirabel.",
-      
-      "alt_logo": "Logo Chez Luma - Pension Canine VIP Mirabel",
+
+      "alt_logo": "Chez Luma - Pension Canine VIP Mirabel",
       "alt_about": "Notre chienne Luma et l'ambiance chaleureuse de Chez Luma",
-      "alt_service_home": "Chien heureux profitant d'un séjour VIP chez Luma",
-      "alt_reiki_hero": "Session de Reiki canin - mains apaisantes sur la tête d'un chien",
+      "alt_service_home": "Luma bébé",
+      "alt_reiki_hero": "Session de Reiki canin",
       "alt_gallery_1": "Chien qui joue dans le jardin à Mirabel",
       "alt_gallery_2": "Petit chien sur un canapé confortable",
       "alt_gallery_3": "Moment de complicité avec un pensionnaire",
@@ -146,8 +146,8 @@ const resources = {
 
       "alt_logo": "Chez Luma Logo - VIP Dog Boarding Mirabel",
       "alt_about": "Our dog Luma and the warm atmosphere at Chez Luma",
-      "alt_service_home": "Happy dog enjoying a VIP stay at Luma's",
-      "alt_reiki_hero": "Canine Reiki session - soothing hands on a dog's head",
+      "alt_service_home": "Baby Luma",
+      "alt_reiki_hero": "Canine Reiki session",
       "alt_gallery_1": "Dog playing in the garden in Mirabel",
       "alt_gallery_2": "Small dog on a comfortable sofa",
       "alt_gallery_3": "Grooming and bonding moment with a guest",
