@@ -156,7 +156,7 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
         </div>
       )}
 
-      <div style={{ maxWidth: '850px', margin: '0 auto', backgroundColor: 'white', padding: '2rem', borderRadius: '30px', boxShadow: 'var(--shadow-lg)' }}>
+      <div className="calendar-container" style={{ maxWidth: '850px', margin: '0 auto', backgroundColor: 'white', padding: '2rem', borderRadius: '30px', boxShadow: 'var(--shadow-lg)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
           <h3 style={{ textTransform: 'capitalize' }}>{selectedMonth.toLocaleString('default', { month: 'long' })} {year}</h3>
           <div style={{ display: 'flex', gap: '1rem' }}>

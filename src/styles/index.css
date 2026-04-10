@@ -606,6 +606,15 @@ header {
     gap: 1rem !important;
     padding-left: 1rem;
   }
+
+  .calendar-container {
+    padding: 1.5rem 1rem !important;
+    border-radius: 20px !important;
+  }
+
+  .booking-form {
+    padding: 1.5rem 1rem !important;
+  }
 }
 
 @keyframes pulse {
