@@ -509,9 +509,21 @@ header {
   z-index: 2;
 }
 
-.day-empty {
+.day-empty, .day-past {
   cursor: default;
   border: none;
+}
+
+.day-past {
+  background-color: #f5f5f5;
+  color: #ccc;
+  opacity: 0.6;
+}
+
+.day-past:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: #eee !important;
 }
 
 .day-available {

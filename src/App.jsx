@@ -72,6 +72,13 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
       saveAvailability({ ...availability, [dateKey]: next });
     } else {
       // Client Selection: Select Range
+      
+      // Block past dates
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const clickedDate = new Date(year, month, day);
+      if (clickedDate < today) return;
+
       // Block click if date is not available
       if (currentStatus !== 'available') return;
 
@@ -113,6 +120,15 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
         classes += ' day-selected';
       }
     }
+
+    // Mark past dates
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const dateOfCell = new Date(year, month, day);
+    if (day && dateOfCell < today) {
+      classes += ' day-past';
+    }
+
     return classes;
   };
 
