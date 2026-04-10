@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 // "homepage": "https://chezluma.com/",
 export default defineConfig({
   plugins: [react()],
-   base: '/',
+  base: './',
 })
