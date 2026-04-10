@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import { supabase } from './supabase';
 
 const ImageModal = ({ imageUrl, onClose }) => {
   if (!imageUrl) return null;
@@ -46,15 +47,36 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [selection, setSelection] = useState({ start: null, end: null });
 
-  // Persistent Availability State
-  const [availability, setAvailability] = useState(() => {
-    const saved = localStorage.getItem('dogSittingAvailability');
-    return saved ? JSON.parse(saved) : {};
-  });
+  // Supabase Availability State
+  const [availability, setAvailability] = useState({});
 
-  const saveAvailability = (newAvail) => {
-    setAvailability(newAvail);
-    localStorage.setItem('dogSittingAvailability', JSON.stringify(newAvail));
+  useEffect(() => {
+    fetchAvailability();
+  }, []);
+
+  const fetchAvailability = async () => {
+    const { data, error } = await supabase.from('availability').select('*');
+    if (data) {
+      const availMap = {};
+      data.forEach(item => {
+        availMap[item.date_key] = item.status;
+      });
+      setAvailability(availMap);
+    }
+  };
+
+  const saveAvailability = async (key, status) => {
+    // Optimistic update
+    setAvailability(prev => ({ ...prev, [key]: status }));
+    
+    const { error } = await supabase
+      .from('availability')
+      .upsert({ date_key: key, status: status });
+      
+    if (error) {
+      console.error('Error updating availability:', error);
+      fetchAvailability(); // Revert to server state on error
+    }
   };
 
   const month = selectedMonth.getMonth();
@@ -69,7 +91,7 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
     if (isAdmin) {
       // Admin Toggle: Available -> Pending -> Booked -> Available
       const next = currentStatus === 'available' ? 'pending' : currentStatus === 'pending' ? 'booked' : 'available';
-      saveAvailability({ ...availability, [dateKey]: next });
+      saveAvailability(dateKey, next);
     } else {
       // Client Selection: Select Range
 
@@ -103,6 +125,43 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
         }
       } else {
         setSelection({ start: day, end: null });
+      }
+    }
+  };
+
+  const handleSubmitBooking = async (e) => {
+    // Prevent redirect to give Supabase time to save
+    e.preventDefault();
+    const form = e.target;
+
+    if (selection.start && selection.end) {
+      const updates = [];
+      for (let d = selection.start; d <= selection.end; d++) {
+        const dKey = `${year}-${month}-${d}`;
+        if ((availability[dKey] || 'available') === 'available') {
+           updates.push({ date_key: dKey, status: 'pending' });
+        }
+      }
+      if (updates.length > 0) {
+        // Optimistic update
+        setAvailability(prev => {
+          const next = {...prev};
+          updates.forEach(u => next[u.date_key] = u.status);
+          return next;
+        });
+        
+        try {
+          const { error } = await supabase.from('availability').upsert(updates);
+          if (error) throw error;
+          
+          // After saving to Supabase, submit the form to Formspree
+          form.submit();
+        } catch (err) {
+          console.error('Supabase Error:', err);
+          alert("Erreur lors de la réservation. Veuillez réessayer.");
+        }
+      } else {
+        form.submit();
       }
     }
   };
@@ -184,6 +243,7 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
             action="https://formspree.io/f/mnjoeayl"
             method="POST"
             className="booking-form"
+            onSubmit={handleSubmitBooking}
           >
             <h3 style={{ marginBottom: '2rem', color: 'var(--color-primary)' }}>{t('form_title')}</h3>
 
