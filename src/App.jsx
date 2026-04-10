@@ -72,10 +72,10 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
       saveAvailability({ ...availability, [dateKey]: next });
     } else {
       // Client Selection: Select Range
-      
+
       // Block past dates
       const today = new Date();
-      today.setHours(0,0,0,0);
+      today.setHours(0, 0, 0, 0);
       const clickedDate = new Date(year, month, day);
       if (clickedDate < today) return;
 
@@ -123,7 +123,7 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
 
     // Mark past dates
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     const dateOfCell = new Date(year, month, day);
     if (day && dateOfCell < today) {
       classes += ' day-past';
@@ -181,7 +181,7 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
 
         {!isAdmin && selection.start && (
           <form
-            action="https://formspree.io/f/xoqgeqzb"
+            action="https://formspree.io/f/mnjoeayl"
             method="POST"
             className="booking-form"
           >
@@ -358,7 +358,7 @@ const About = ({ t }) => (
 
         <div className="contact-form-container">
           <h3 style={{ marginBottom: '2rem', color: 'var(--color-text)' }}>{t('contact_title')}</h3>
-          <form action="https://formspree.io/f/xoqgeqzb" method="POST" className="contact-page-form">
+          <form action="https://formspree.io/f/xqegrzov" method="POST" className="contact-page-form">
             <div className="form-group-row">
               <div className="input-group">
                 <label>{t('form_name')} *</label>
@@ -479,7 +479,7 @@ const Reiki = ({ t }) => (
       {/* Formulaire Reiki */}
       <section id="reiki-form" style={{ backgroundColor: '#ffffff', padding: '4rem 2rem', borderRadius: '40px', boxShadow: 'var(--shadow-lg)', marginBottom: '4rem' }}>
         <h2 className="text-primary" style={{ textAlign: 'center', marginBottom: '3rem' }}>{t('reiki_form_title')}</h2>
-        <form action="https://formspree.io/f/xoqgeqzb" method="POST" style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <form action="https://formspree.io/f/xqegrzov" method="POST" style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <input type="hidden" name="_subject" value="Nouvelle demande de Reiki Canin" />
 
           <div className="form-group" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', gap: '0.5rem' }}>
