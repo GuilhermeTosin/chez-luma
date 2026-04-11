@@ -412,6 +412,19 @@ header {
   margin-top: 3rem;
 }
 
+@media (max-width: 1024px) {
+  .info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .info-card {
+    flex: 1 1 300px;
+    max-width: 450px;
+  }
+}
+
 .info-card {
   background: white;
   padding: 3rem 2rem;
