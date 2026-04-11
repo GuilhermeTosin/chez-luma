@@ -380,7 +380,7 @@ const Gallery = ({ t, onImageClick }) => (
     <h1 className="text-primary" style={{ textAlign: 'center', marginBottom: '3rem' }}>{t('gallery_title')}</h1>
     <div className="gallery-grid">
       {[1, 2, 3, 4, 5, 6].map(i => {
-        const url = `https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80&sig=${i}`;
+        const url = `/images/gallery/gallery-${i}.jpg`;
         const altKey = `alt_gallery_${i}`;
         return (
           <div key={i}
