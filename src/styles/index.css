@@ -420,8 +420,9 @@ header {
   }
   
   .info-card {
-    flex: 1 1 300px;
-    max-width: 450px;
+    flex: 0 1 350px; /* Don't grow, stay at 350px base */
+    width: 100%;
+    max-width: 400px; /* Consistent standard size */
   }
 }
 
