@@ -104,7 +104,7 @@ header {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
 }
 
@@ -134,7 +134,8 @@ header {
   display: none;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
   .nav-links {
     display: none;
   }
