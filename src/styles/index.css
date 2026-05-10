@@ -627,7 +627,7 @@ header {
 
 @media (max-width: 600px) {
   .status-label {
-    font-size: 0.5rem;
+    display: none;
   }
 
   .day-cell {
