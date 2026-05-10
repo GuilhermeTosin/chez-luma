@@ -224,7 +224,7 @@ const Calendar = ({ t, isAdmin, showAdminLogin, adminPassword, setAdminPassword,
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '10px', textAlign: 'center' }}>
+        <div className="calendar-grid">
           {(i18n.language === 'fr' ? ['D', 'L', 'M', 'M', 'J', 'V', 'S'] : ['S', 'M', 'T', 'W', 'T', 'F', 'S']).map((d, index) => <div key={index} style={{ fontWeight: 'bold', color: 'var(--color-primary)', paddingBottom: '10px' }}>{d}</div>)}
           {calendarDays.map((day, i) => {
             const dateKey = `${year}-${month}-${day}`;
